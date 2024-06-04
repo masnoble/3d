@@ -1,35 +1,18 @@
 #include <SDL2/SDL.h>
-#include <iostream>
-
-
-const int WIDTH = 800, HEIGHT = 600;
-
+#include"screen.h"
 
 int main(int argc, char *argv[]){
-    SDL_Init(SDL_INIT_EVERYTHING);
+    Screen screen;
 
-    SDL_Window *window = SDL_CreateWindow("Hey", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
+    for(int i = 0; i < 100; i++){
+        screen.pixel(rand()%640, rand()%480);
 
-
-    if(NULL == window){
-        std::cout << "Dead" << SDL_GetError() << std::endl;
-
-        return 1;
     }
-
-    SDL_Event windowEvent;
 
     while(true){
-        if(SDL_PollEvent(&windowEvent)){
-            if(SDL_QUIT == windowEvent.type){
-                break;
-            }
-        }   
+        screen.show();
+        screen.input();
     }
 
-    SDL_DestroyWindow(window);
-
-    SDL_Quit();
-
-    return EXIT_SUCCESS;
+    return 0;
 }
