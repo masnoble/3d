@@ -13,7 +13,7 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${workspaceFolder}\\build\\${fileBasenameNoExtension}.exe",
                 "-lmingw32",
                 "-lSDL2main",
                 "-lSDL2"
