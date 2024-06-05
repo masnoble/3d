@@ -7,7 +7,7 @@ class Screen{
     SDL_Event e;
     SDL_Window* window;
     SDL_Renderer* renderer;
-    std::vector<SDL_FPoint> points;
+    std::vector<SDL_Vertex> verts;
     std::vector<line> lines;
 
     public:
@@ -41,18 +41,21 @@ class Screen{
         }
 
         void clear(){
-            points.clear();
+            verts.clear();
             lines.clear();
         }
 
 
-        void pixel(float x, float y){
-            points.push_back(SDL_FPoint({x, y}));
+        void vertex(float x, float y){
+            verts.push_back(SDL_Vertex{
+                SDL_FPoint{ x, y }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }
+            });
         }
         
         void line(float x1, float y1, float x2, float y2){
             lines.emplace_back(x1, y1, x2, y2);
         }
+
 
         void show(){
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -64,9 +67,7 @@ class Screen{
                 SDL_RenderDrawLineF(renderer, line.x1, line.y1, line.x2, line.y2);
             }
 
-            for (auto& point: points){
-                SDL_RenderDrawPointF(renderer, point.x, point.y);
-            }
+            SDL_RenderGeometry(renderer, nullptr, verts.data(), verts.size(), nullptr, 0);
 
             SDL_RenderPresent(renderer);
         }
