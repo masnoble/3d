@@ -57,12 +57,16 @@ void drawCube(float fElapsedTime){
         triProjected[2].x *= 0.5f * screen.WIDTH;
         triProjected[2].y *= 0.5f * screen.HEIGHT;
 
-        screen.line(triProjected[0].x, triProjected[0].y,
-                    triProjected[1].x, triProjected[1].y);
-        screen.line(triProjected[1].x, triProjected[1].y,
-                    triProjected[2].x, triProjected[2].y);
-        screen.line(triProjected[2].x, triProjected[2].y,
-                    triProjected[0].x, triProjected[0].y);
+        // screen.line(triProjected[0].x, triProjected[0].y,
+        //             triProjected[1].x, triProjected[1].y);
+        // screen.line(triProjected[1].x, triProjected[1].y,
+        //             triProjected[2].x, triProjected[2].y);
+        // screen.line(triProjected[2].x, triProjected[2].y,
+        //             triProjected[0].x, triProjected[0].y);
+
+        screen.vertex(triProjected[0].x, triProjected[0].y);
+        screen.vertex(triProjected[1].x, triProjected[1].y);
+        screen.vertex(triProjected[2].x, triProjected[2].y);
     }
 }
 
@@ -117,6 +121,8 @@ int main(int argc, char *argv[]){
         SDL_Delay(30);
         screen.clear();
     }
+
+
 
     return 0;
 }
