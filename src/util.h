@@ -4,9 +4,6 @@ struct vec3{
     float x,y,z;
 };
 
-struct triangle {
-    vec3 p[3];
-};
 
 struct line{
     float x1, x2, y1, y2;
@@ -19,16 +16,15 @@ struct line{
     }
 };
 
+struct face {
+    int a, b, c;
+};
+
 struct mesh
 {
 	std::vector<vec3> vertecis;
-    struct faces {
-        int a, b, c;
-    };
     
-    std::vector<faces> faces;
-
-    std::vector<triangle> triangles;
+    std::vector<face> faces;
 };
 
 struct mat4x4

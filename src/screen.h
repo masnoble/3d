@@ -16,6 +16,8 @@ class Screen{
         const int HEIGHT = 240;
         const int SCALE = 2;
 
+        vec3 camera;
+
         const float fNear = 0.1f;
         const float fFar = 1000.0f;
         const float fFov = 90.0f;
@@ -46,9 +48,16 @@ class Screen{
         }
 
 
-        void vertex(float x, float y){
+        void vertex(float x, float y, float light){
+
+            Uint8 r, g, b;
+
+            r = static_cast<Uint8>(std::round((100 * light)));
+            g = static_cast<Uint8>(std::round((100 * light)));
+            b = static_cast<Uint8>(std::round((255 * light)));
+
             verts.push_back(SDL_Vertex{
-                SDL_FPoint{ x, y }, SDL_Color{ 255, 255, 255, 255 }, SDL_FPoint{ 0 }
+                SDL_FPoint{ x, y }, SDL_Color{ r, g, b, 255 }, SDL_FPoint{ 0 }
             });
         }
         
@@ -61,13 +70,13 @@ class Screen{
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
+            SDL_RenderGeometry(renderer, nullptr, verts.data(), verts.size(), nullptr, 0);
+
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             for(auto& line : lines){
                 SDL_RenderDrawLineF(renderer, line.x1, line.y1, line.x2, line.y2);
             }
-
-            SDL_RenderGeometry(renderer, nullptr, verts.data(), verts.size(), nullptr, 0);
 
             SDL_RenderPresent(renderer);
         }
