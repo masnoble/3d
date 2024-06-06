@@ -94,17 +94,19 @@ void drawCube(float fElapsedTime){
             triProjected[2].x *= 0.5f * screen.WIDTH;
             triProjected[2].y *= 0.5f * screen.HEIGHT;
 
-            screen.line(triProjected[0].x, triProjected[0].y,
-                        triProjected[1].x, triProjected[1].y);
-            screen.line(triProjected[1].x, triProjected[1].y,
-                        triProjected[2].x, triProjected[2].y);
-            screen.line(triProjected[2].x, triProjected[2].y,
-                        triProjected[0].x, triProjected[0].y);
+            screen.addTriangle(triProjected, lightImpact);
+
+            // screen.line(triProjected[0].x, triProjected[0].y,
+            //             triProjected[1].x, triProjected[1].y);
+            // screen.line(triProjected[1].x, triProjected[1].y,
+            //             triProjected[2].x, triProjected[2].y);
+            // screen.line(triProjected[2].x, triProjected[2].y,
+            //             triProjected[0].x, triProjected[0].y);
 
 
-            screen.vertex(triProjected[0].x, triProjected[0].y, lightImpact);
-            screen.vertex(triProjected[1].x, triProjected[1].y, lightImpact);
-            screen.vertex(triProjected[2].x, triProjected[2].y, lightImpact);
+            // screen.vertex(triProjected[0].x, triProjected[0].y, lightImpact);
+            // screen.vertex(triProjected[1].x, triProjected[1].y, lightImpact);
+            // screen.vertex(triProjected[2].x, triProjected[2].y, lightImpact);
         }
     }
 }
@@ -197,7 +199,7 @@ int main(int argc, char *argv[]){
         float time2 = SDL_GetTicks64();
         drawCube(time2 - time1);
         time1 = time2;
-        screen.show();
+        screen.show(false);
         screen.input();
         SDL_Delay(30);
         screen.clear();

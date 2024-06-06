@@ -4,6 +4,18 @@ struct vec3{
     float x,y,z;
 };
 
+struct triangle{
+    vec3 points[3];
+    float light;
+
+    triangle(vec3 ps[], float l){
+        points[0] = ps[0];
+        points[1] = ps[1];
+        points[2] = ps[2];
+
+        light = l;
+    }
+};
 
 struct line{
     float x1, x2, y1, y2;

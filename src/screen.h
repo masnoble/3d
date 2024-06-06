@@ -1,6 +1,7 @@
 #include "util.h"
 #include <SDL2/SDL.h>
 #include <Vector>
+#include <algorithm>
 #include <cmath>
 
 class Screen{
@@ -9,6 +10,7 @@ class Screen{
     SDL_Renderer* renderer;
     std::vector<SDL_Vertex> verts;
     std::vector<line> lines;
+    std::vector<triangle> triangles;
 
     public:
         
@@ -45,8 +47,8 @@ class Screen{
         void clear(){
             verts.clear();
             lines.clear();
+            triangles.clear();
         }
-
 
         void vertex(float x, float y, float light){
 
@@ -65,8 +67,37 @@ class Screen{
             lines.emplace_back(x1, y1, x2, y2);
         }
 
+        void addTriangle(vec3 points[], float light = 1){
+            triangles.emplace_back(points, light);
+        }
 
-        void show(){
+        void show(bool showWireframe){
+
+            //sort the triangles first
+            std::sort(triangles.begin(), triangles.end(), [](triangle &t1, triangle &t2)
+            {
+                float z1 = (t1.points[0].z + t1.points[1].z + t1.points[2].z) / 3.0f;
+                float z2 = (t2.points[0].z + t2.points[1].z + t2.points[2].z) / 3.0f;
+                return z1 > z2;
+            });
+
+            //populate the lines and verts
+            for (auto &tri : triangles){
+                vertex(tri.points[0].x, tri.points[0].y, tri.light);
+                vertex(tri.points[1].x, tri.points[1].y, tri.light);
+                vertex(tri.points[2].x, tri.points[2].y, tri.light);
+
+
+                if(showWireframe){
+                    line(tri.points[0].x, tri.points[0].y,
+                         tri.points[1].x, tri.points[1].y);
+                    line(tri.points[1].x, tri.points[1].y,
+                         tri.points[2].x, tri.points[2].y);
+                    line(tri.points[2].x, tri.points[2].y,
+                         tri.points[0].x, tri.points[0].y);
+                }
+            }
+
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
